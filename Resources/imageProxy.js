@@ -6,7 +6,6 @@ let self;
 module.exports = class ImageView {
 	constructor(args) {
 		this.args = JSON.parse(JSON.stringify(args));
-		console.log(this.args);
 		self = this;
 		imageview.httpHandler = function httpHandler(url, cb) {
 			Ti.API.info('making my request');
@@ -22,7 +21,6 @@ module.exports = class ImageView {
 				}
 			  });
 			  client.open('GET', url);
-			  console.log(imageview.defaultRequestHeaders);
 			  for (var name in imageview.defaultRequestHeaders) {
 				client.setRequestHeader(name, args.requestHeaders[name]);
 			  }
