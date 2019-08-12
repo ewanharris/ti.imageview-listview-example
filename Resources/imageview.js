@@ -12,12 +12,10 @@ function log(value) {
 function createImageView(args) {
   log('creating ImageView for ' + args.image);
   var url;
-  console.log(args.image);
   if (args.image && args.image.indexOf('http') === 0) {
     url = args.image;
     delete args.image;
   }
-  console.log(args.image);
   var imageView = Ti.UI.createImageView(args);
 
 

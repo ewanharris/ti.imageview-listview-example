@@ -1,11 +1,10 @@
-var imageTrack = {};
-var plainTemplate = {
+const imageTrack = {};
+const plainTemplate = {
     childTemplates: [
         {
             type: './imageProxy',
             bindId: 'pic',
             properties: {
-                image: 'http://hans-knoechel.de/test/test.png',
                 width: '50dp', height: '50dp', left: 0,
                 defaultImage: 'assets/images/tab2.png',
                 updateCallback(imageUrl) {
@@ -43,28 +42,41 @@ var plainTemplate = {
         }
     ]
 };
-var win = Ti.UI.createWindow({
+const win = Ti.UI.createWindow({
     backgroundColor: '#fff'
 });
-var data = [];
-for (var i = 0; i < 1; i++) {
+const listView = Ti.UI.createListView({
+    templates: {
+        uncheck: plainTemplate
+    },
+    defaultItemTemplate: 'uncheck'
+});
+const data = [];
+for (var i = 0; i < 10; i++) {
     imageTrack['http://hans-knoechel.de/test/test.png'] = {
         itemIndex: i,
         section: 0
     }
-    data.push({
-        pic: {
-            // image: 'http://hans-knoechel.de/test/test.png'
-        }
-    });
+    // Can't set image property on Android as it will bypass ti.imageview code,
+    // need to set something else (left in for demo purposes though)
+    if (Ti.UI.iOS) {
+        data.push({
+            pic: {
+                image: 'http://hans-knoechel.de/test/test.png'
+            }
+        });
+    } else {
+        data.push({
+            pic: {
+                image: 'http://hans-knoechel.de/test/test.png',
+            }
+        })
+    }
 }
-console.log(imageTrack);
-var listView = Ti.UI.createListView({
-    templates: { 'uncheck': plainTemplate },
-    defaultItemTemplate: 'uncheck'
+const section = Ti.UI.createListSection({
+    items: data
 });
-var section = Ti.UI.createListSection();
-section.setItems(data);
+
 listView.sections = [section];
 win.add(listView);
 win.open();
